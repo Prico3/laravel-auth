@@ -10,9 +10,8 @@
                     @csrf
                     <div class="form-group mb-3">
                         <label for="title">Titolo</label>
-                        <input type="text" id="title" ame="title"
-                            class="form-control 
-                        @error('title')
+                        <input type="text" id="title" name="title"
+                            class="form-control @error('title')
                         is-invalid
                         @enderror"
                             value="{{ old('title') }}">

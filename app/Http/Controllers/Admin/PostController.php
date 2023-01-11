@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
-use PDO;
+use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -42,8 +41,8 @@ class PostController extends Controller
         $form_data = $request->validated();
         $form_data['slug'] = Post::generateSlug($form_data['title']);
 
-        $post = Post::create($form_data); // serve sempre fillable
-        return redirect()->route('admin.posts.index')->with('message', 'Il progetto è stato aggiunto con successo');
+        $post = Post::create($form_data);
+        return redirect()->route('admin.posts.index')->with('message', 'Il Progetto è sato creato con successo');
     }
 
     /**
@@ -77,6 +76,7 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+        // dd($request->validated());
         $form_data = $request->all();
         $form_data['slug'] = Post::generateSlug($form_data['title']);
         $post->update($form_data);
