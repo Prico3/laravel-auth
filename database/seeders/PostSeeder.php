@@ -6,7 +6,6 @@ use App\Models\Post;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
-use Illuminate\Support\Str;
 
 class PostSeeder extends Seeder
 {
@@ -21,7 +20,7 @@ class PostSeeder extends Seeder
             $post = new Post();
             $post->title = $faker->sentence(3);
             $post->content = $faker->text(400);
-            $post->slug = Str::slug($post->title, '-');
+            $post->slug = Post::generateSlug($post->title);
             $post->save();
         }
     }

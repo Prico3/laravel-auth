@@ -27,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create');
     }
 
     /**
@@ -38,7 +38,11 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        //
+        $form_data = $request->validated();
+        $form_data['slug'] = Post::generateSlug($form_data['title']);
+
+        $post = Post::create($form_data); // serve sempre fillable
+        return redirect()->route('admin.posts.index')->with('message', 'Il progetto è stato aggiunto con successo');
     }
 
     /**
