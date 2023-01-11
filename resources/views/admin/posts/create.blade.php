@@ -5,7 +5,7 @@
         <h2 class="text-center mt-3">Crea un nuovo progetto</h2>
         <div class="row justify-content-center">
             <div class="col-8">
-                {{-- @include('partials.errors') --}}
+                @include('partials.errors')
                 <form action="{{ route('admin.posts.store') }}" method="POST">
                     @csrf
                     <div class="form-group mb-3">

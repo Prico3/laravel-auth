@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use PDO;
 
 class PostController extends Controller
 {
@@ -64,7 +65,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -76,7 +77,11 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $form_data = $request->all();
+        $form_data['slug'] = Post::generateSlug($form_data['title']);
+        $post->update($form_data);
+
+        return redirect()->route('admin.posts.index')->with('message', "$post->title è stato aggiornato con successo");
     }
 
     /**
@@ -87,6 +92,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('admin.posts.index')->with('message', "$post->title è stato cancellato");
     }
 }
