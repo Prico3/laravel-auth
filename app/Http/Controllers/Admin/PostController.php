@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -41,6 +42,10 @@ class PostController extends Controller
         $form_data = $request->validated();
         $form_data['slug'] = Post::generateSlug($form_data['title']);
 
+        if ($request->hasFile('cover_image')) {
+            $path = Storage::put('post_images', $request->cover_image);
+            $form_data['cover_image'] = $path;
+        }
         $post = Post::create($form_data);
         return redirect()->route('admin.posts.index')->with('message', 'Il Progetto è sato creato con successo');
     }
