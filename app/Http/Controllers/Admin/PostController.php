@@ -84,6 +84,15 @@ class PostController extends Controller
         // dd($request->validated());
         $form_data = $request->all();
         $form_data['slug'] = Post::generateSlug($form_data['title']);
+
+        if ($request->hasFile('cover_image')) {
+            if ($post->cover_image) {
+                Storage::delete($post->cover_image);
+            }
+            $path = Storage::put('post_images', $request->cover_image);
+            $form_data['cover_image'] = $path;
+        }
+
         $post->update($form_data);
 
         return redirect()->route('admin.posts.index')->with('message', "$post->title è stato aggiornato con successo");
